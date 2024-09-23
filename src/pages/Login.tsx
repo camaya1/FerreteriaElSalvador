@@ -10,10 +10,12 @@ import "../styles/Login.scss";
 import ContextCreate from "../interface/Context";
 import { MessageInterface } from "../interface/Api";
 import Notification from "../components/Notification";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const context = useContext(ContextCreate)
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
@@ -39,6 +41,7 @@ const Login = () => {
                         rolId: response.data.user.rolId
                     }
                 })
+                navigate("/home/products");
             })
             .catch((error) => {
                 console.error(error);
