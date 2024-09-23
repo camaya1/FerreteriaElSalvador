@@ -1,10 +1,12 @@
-import { RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './App.scss'
+import Router from './router/Router';
 
 const App = () => {
+    const router = createBrowserRouter(Router);
 
 	return (
-		<RouterProvider router={[]}>
+		<RouterProvider router={router}>
 		</RouterProvider>
 	)
 }
