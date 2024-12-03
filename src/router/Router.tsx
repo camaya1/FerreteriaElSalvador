@@ -4,43 +4,61 @@ import Login from "../pages/Login"
 import Home from "../pages/Home"
 import Products from "../pages/Home/Products"
 import Supplier from "../pages/Home/Supplier"
-import Orders from "../pages/Home/Orders"
 import Inventory from "../pages/Home/Inventory"
 import Reports from "../pages/Home/Reports"
 import Clients from "../pages/Home/clients"
+import Employees from "../pages/Home/Employees" // Importar la página de empleados
+import Branches from "../pages/Home/Branches" // Importar la página de sucursales
+import Sales from "../pages/Home/Sales" // Importar la página de ventas
 
 const Router = [
     {
-        path: "login",
-        element: <Login/>,
-    }, {
-        path: "home",
-        element: <Home/>,
-        children: [
-            {
-                path: "products",
-                element:<Products/>,
-            },{
-                path: "supplier",
-                element: <Supplier/>,
-            },{
-                path: "orders",
-                element: <Orders/>,
-            },{
-                path: "inventory",
-                element: <Inventory/>,
-            },{
-                path: "reports",
-                element: <Reports/>,
-            },{
-                path: "clients",
-                element: <Clients/>,
-            }
-        ]
-    }, {
-        path: "*",
-        element: <Navigate to="/login"/>,
-    }
-]
-
-export default Router
+      path: "login",
+      element: <Login />,
+    },
+    {
+      path: "home",
+      element: <Home />,
+      children: [
+        {
+          path: "products",
+          element: <Products />,
+        },
+        {
+          path: "supplier",
+          element: <Supplier />,
+        },
+        {
+          path: "sales", // Nueva ruta
+          element: <Sales />, // Componente de ventas
+        },
+        {
+          path: "inventory",
+          element: <Inventory />,
+        },
+        {
+          path: "reports",
+          element: <Reports />,
+        },
+        {
+          path: "clients",
+          element: <Clients />,
+        },
+        {
+          path: "employees",
+          element: <Employees />,
+        },
+        {
+          path: "branches",
+          element: <Branches />,
+        },
+      ],
+    },
+    {
+      path: "*",
+      element: <Navigate to="/login" />,
+    },
+  ];
+  
+  export default Router;
+  

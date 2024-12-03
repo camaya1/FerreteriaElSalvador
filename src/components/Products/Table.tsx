@@ -1,62 +1,61 @@
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import Button from "@mui/material/Button";
 
-function createData(
-  name: string,
-  calories: number,
-  fat: string,
-  carbs: number,
-  protein: string,
-  date: string
-) {
-  return { name, calories, fat, carbs, protein, date };
+interface TableProductsProps {
+  products: any[];
+  onReduceStock: (id: number, cantidad: number) => void;
+  onIncreaseStock: (id: number, cantidad: number) => void;
+  onEditProduct: (product: any) => void;
 }
 
-const rows = [
-  createData('Frozen yoghurt', 159, "A", 24, "Proveedor A", "2021-10-10"),
-  createData('Ice cream sandwich', 237, "A", 37, "Proveedor A", "2021-10-10"),
-  createData('Eclair', 262, "A", 24, "Proveedor A", "2021-10-10"),
-  createData('Cupcake', 305, "A", 67, "Proveedor A", "2021-10-10"),
-  createData('Gingerbread', 356, "A", 49, "Proveedor A", "2021-10-10"),
-];
-
-export default function BasicTable() {
+const TableProducts = ({
+  products,
+  onReduceStock,
+  onIncreaseStock,
+  onEditProduct,
+}: TableProductsProps) => {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>Nombre del producto</TableCell>
-            <TableCell align="right">Codigo</TableCell>
-            <TableCell align="right">Categoria</TableCell>
+            <TableCell align="right">Descripción</TableCell>
             <TableCell align="right">Precio</TableCell>
-            <TableCell align="right">Proveedor</TableCell>
-            <TableCell align="right">Fecha</TableCell>
+            <TableCell align="right">Cantidad</TableCell>
+            <TableCell align="right">Acciones</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {row.name}
+          {products.map((product) => (
+            <TableRow key={product.id}>
+              <TableCell>{product.nombre}</TableCell>
+              <TableCell align="right">{product.descripcion}</TableCell>
+              <TableCell align="right">${product.precio}</TableCell>
+              <TableCell align="right">{product.cantidad}</TableCell>
+              <TableCell align="right">
+                <Button onClick={() => onIncreaseStock(product.id, 1)}>+</Button>
+                <Button onClick={() => onReduceStock(product.id, 1)}>-</Button>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => onEditProduct(product)}
+                >
+                  Editar
+                </Button>
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
-              <TableCell align="right">{row.date}</TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
   );
-}
+};
+
+export default TableProducts;
