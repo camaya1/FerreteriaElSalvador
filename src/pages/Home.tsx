@@ -1,23 +1,37 @@
 import { useState, useContext } from "react";
-import Box from "@mui/material/Box";
-import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import Button from "@mui/material/Button";
-import { Outlet, useNavigate } from "react-router-dom";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Tabs,
+  Tab,
+  Button,
+  Box,
+  IconButton,
+} from "@mui/material";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ContextCreate from "../interface/Context"; // Contexto de sesión
-import AccountCircleIcon from "@mui/icons-material/AccountCircle"; // Ícono de usuario
+import { useNavigate, Outlet } from "react-router-dom";
 import logo from "../assets/ferreteria-logo.png"; // Logo de la Ferretería
 
 const Home = () => {
-  const [value, setValue] = useState("products");
+  const [value, setValue] = useState(0);
   const navigate = useNavigate();
-  const { user, setUser } = useContext(ContextCreate); // Obtener `user` del contexto
+  const { setUser } = useContext(ContextCreate); // Obtener `setUser` del contexto
 
-  // Manejar el cambio de pestañas
-  const handleChange = (_: React.SyntheticEvent, newValue: string) => {
+  // Cambiar pestañas
+  const handleChange = (_: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
-    navigate(newValue);
+    const routes = [
+      "products",
+      "supplier",
+      "sales",
+      "inventory",
+      "reports",
+      "employees",
+      "branches",
+    ];
+    navigate(`/home/${routes[newValue]}`);
   };
 
   // Manejar cierre de sesión
@@ -35,58 +49,86 @@ const Home = () => {
 
   return (
     <>
-      <TabContext value={value}>
-        <Box
+      <AppBar position="static" sx={{ backgroundColor: "#2c3e50" }}>
+        <Toolbar
           sx={{
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            borderBottom: 1,
-            borderColor: "divider",
-            padding: "10px",
           }}
         >
-          {/* Logo */}
+          {/* Logo y título */}
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
             <img
               src={logo}
               alt="Logo de la Ferretería"
-              style={{ width: "40px", height: "40px" }} // Tamaño reducido
+              style={{ width: "50px", height: "50px" }}
             />
-            <h1 style={{ margin: 0, fontSize: "1.2rem" }}>Ferretería El Salvador</h1>
+            <Typography
+              variant="h6"
+              sx={{ fontWeight: "bold", color: "#ecf0f1" }}
+            >
+              Ferretería El Salvador
+            </Typography>
           </Box>
 
-          {/* Menú de pestañas */}
-          <TabList onChange={handleChange}>
-            <Tab label="Registro de productos" value="products" />
-            <Tab label="Gestión de proveedores" value="supplier" />
-            <Tab label="Panel de ventas" value="sales" /> {/* Cambiado a 'sales' */}
-            <Tab label="Consulta de inventario" value="inventory" />
-            <Tab label="Reportes" value="reports" />
-            <Tab label="Registrar empleados" value="employees" />
-            <Tab label="Sucursales" value="branches" />
-          </TabList>
+          {/* Menú horizontal */}
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            textColor="inherit"
+            TabIndicatorProps={{
+              style: { backgroundColor: "#ecf0f1", height: "3px" },
+            }}
+            sx={{
+              "& .MuiTab-root": {
+                textTransform: "none",
+                fontSize: "1rem",
+                color: "#ecf0f1",
+              },
+              "& .Mui-selected": {
+                color: "#ecf0f1",
+                fontWeight: "bold",
+              },
+            }}
+          >
+            <Tab label="Productos" />
+            <Tab label="Proveedores" />
+            <Tab label="Ventas" />
+            <Tab label="Inventario" />
+            <Tab label="Reportes" />
+            <Tab label="Empleados" />
+            <Tab label="Sucursales" />
+          </Tabs>
 
-          {/* Ícono de usuario y botón de cerrar sesión */}
+          {/* Ícono y botón de cerrar sesión */}
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            <AccountCircleIcon style={{ color: "gray", fontSize: "30px" }} />
+            <IconButton>
+              <AccountCircleIcon style={{ color: "#ecf0f1", fontSize: "30px" }} />
+            </IconButton>
             <Button
               variant="outlined"
-              color="secondary"
+              color="inherit"
               onClick={handleLogout}
               sx={{
                 padding: "0.5rem 1rem",
                 fontSize: "0.9rem",
                 borderRadius: "8px",
                 textTransform: "none",
+                color: "#ecf0f1",
+                borderColor: "#ecf0f1",
               }}
             >
               Cerrar Sesión
             </Button>
           </Box>
-        </Box>
+        </Toolbar>
+      </AppBar>
+
+      {/* Rutas hijas */}
+      <Box sx={{ padding: "20px" }}>
         <Outlet />
-      </TabContext>
+      </Box>
     </>
   );
 };
