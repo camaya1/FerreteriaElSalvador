@@ -2,7 +2,6 @@
 
 JuanPerez@gmail.com
 123456
-token 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
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
